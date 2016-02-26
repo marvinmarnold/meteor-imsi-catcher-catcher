@@ -1,4 +1,4 @@
-GSMReadingsSchema = new SimpleSchema({
+TelephonyReadingsSchema = new SimpleSchema({
   commonReading: {
     type: CommonReadingsSchema
   },

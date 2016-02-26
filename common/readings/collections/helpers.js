@@ -3,7 +3,7 @@ _.extend(Catcher, {
     if(readingType === ANDROID_V1_SIM) {
       return SIMReadings;
     } else {
-      return GSMReadings;
+      return TelephonyReadings;
     }
     // switch(readingType) {
     //   case ANDROID_V1_SIM: return SIMReadings;

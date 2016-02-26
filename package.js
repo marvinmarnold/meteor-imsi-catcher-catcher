@@ -22,7 +22,6 @@ Package.onUse(function(api) {
     'aldeed:simple-schema@1.5.3',
     'marvin:device-id@0.0.1',
     'matb33:collection-hooks@0.8.1',
-    'nimble:restivus@0.8.4'
   ]);
 
   // Lib
@@ -33,13 +32,13 @@ Package.onUse(function(api) {
   // Schemas
   api.addFiles([
     'common/readings/schemas/common-readings-schema.js',
-    'common/readings/schemas/g-s-m-readings-schema.js',
+    'common/readings/schemas/telephony-readings-schema.js',
     'common/readings/schemas/s-i-m-readings-schema.js'
   ]);
 
   // Collections
   api.addFiles([
-    'common/readings/collections/g-s-m-readings.js',
+    'common/readings/collections/telephony-readings.js',
     'common/readings/collections/s-i-m-readings.js',
     'common/readings/collections/helpers.js'
   ]);
@@ -61,11 +60,6 @@ Package.onUse(function(api) {
     'server/detections/detections-publications.js',
     'server/readings/readings-methods.js',
     'server/readings/readings-publications.js',
-  ], 'server');
-
-  // REST API
-  api.addFiles([
-    'server/rest-api/readings.js',
   ], 'server');
 
   api.export("Catcher")

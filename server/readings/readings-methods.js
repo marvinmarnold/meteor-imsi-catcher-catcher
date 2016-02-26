@@ -19,17 +19,44 @@ Meteor.methods({
     var readingCollection =   Catcher.collectionForReadingType(reading.commonReading.readingType);
     check(reading, readingCollection.simpleSchema())
 
-    // Don't need duplicates if nothing changed
-    var existingReading = Catcher.SIMReadings.findOne({
-      "commonReading.deviceId": reading.commonReading.deviceId,
-      mcc: reading.mcc,
-      mnc: reading.mnc
-    })
-
-    if(!existingReading) {
+    if(!isDuplicateReading(reading)) {
       return readingCollection.insert(reading);
     } else {
       return false
     }
   }
 });
+
+var isDuplicateReading = function(reading) {
+  var readingType = reading.commonReading.readingType
+
+  if(readingType === Catcher.READING_TYPES.ANDROID_V1_SIM) {
+    return !!Catcher.SIMReadings.findOne({
+      "commonReading.deviceId": reading.commonReading.deviceId,
+      mcc: reading.mcc,
+      mnc: reading.mnc
+    })
+  } else if(isTelephonyReading(reading)) {
+    return !!Catcher.TelephonyReadings.findOne({
+      "commonReading.deviceId": reading.commonReading.deviceId,
+      cid: reading.cid,
+    })
+  }
+
+  return false;
+}
+
+var isTelephonyReading = function(reading) {
+  var readingType = reading.commonReading.readingType
+
+  if((readingType === Catcher.READING_TYPES.ANDROID_V1_GSM) ||
+    (readingType === Catcher.READING_TYPES.ANDROID_V17_GSM) ||
+    (readingType === Catcher.READING_TYPES.ANDROID_V17_CDMA) ||
+    (readingType === Catcher.READING_TYPES.ANDROID_V17_LTE) ||
+    (readingType === Catcher.READING_TYPES.ANDROID_V17_WCDMA)) {
+
+    return true;
+  }
+
+  return false;
+}
