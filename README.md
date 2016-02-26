@@ -1,5 +1,5 @@
 # Overview
-`meteor-imsi-catcher` gives any meteor app the ability to function as an IMSI-catcher.
+`meteor-imsi-catcher-catcher` gives any meteor app the ability to function as an IMSI-catcher.
 If run on the client, the client should use whatever radios at its disposal to create Readings and send to the server.
 Detection can either take place on the client and/or the server.
 Each client will be responsible for providing a UI.
@@ -7,11 +7,11 @@ Each client will be responsible for providing a UI.
 Please make a pull request if you are working on one of your own.
 
 # Usage
+````
+Meteor.call('catcher/readings/insert', reading, callback(error, readingId){
 
-Meteor.call('imsi-catcher/readings/insert', reading, function(error, readingId) {
-
-})
-
+});
+````
 # Concepts
 ## Readings
 Atomic unit for a telephony information.
