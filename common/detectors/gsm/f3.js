@@ -15,7 +15,6 @@ _.extend(Catcher.Detectors, {
         var bts = Basestations.findOne({cid: reading.cid})
 
         if(bts && (bts.lac !== reading.lac)) {
-          console.log('one found');
           var message = "On CID " + bts.cid +
             ", LAC changed from: " + bts.lac + " => " + reading.lac
 

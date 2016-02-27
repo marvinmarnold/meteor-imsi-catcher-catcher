@@ -4,3 +4,40 @@ TelephonyReadings.attachSchema(TelephonyReadingsSchema)
 _.extend(Catcher, {
   TelephonyReadings: TelephonyReadings
 })
+
+TelephonyReadings.after.insert(function (userId, reading) {
+  // Run detections before any side effects of inserted reading
+  Catcher.runDetectionPre(dreadingoc)
+
+  if(Meteor.isServer)
+    afterInsertReadingServer(reading);
+
+  // Run detections after all side effect of inserted reading
+  Catcher.runDetectionPost(doc)
+});
+
+var afterInsertReadingServer = function(reading) {
+
+  if(looksLikeBTS(reading)) {
+    var bts = Basestations.findOne({cid: reading.cid})
+
+    if(bts) {
+      Basestations.update(bts._id, {$set: {
+        lac: reading.lac,
+        lastTelephonyReadingId: reading._id
+      }})
+    } else {
+      Basestations.insert({
+        cid: reading.cid,
+        lac: reading.lac,
+        mnc: reading.mnc,
+        mcc: reading.mcc,
+        lastTelephonyReadingId: reading._id,
+      })
+    }
+  }
+}
+
+var looksLikeBTS = function(reading) {
+  return !!reading.cid
+}
