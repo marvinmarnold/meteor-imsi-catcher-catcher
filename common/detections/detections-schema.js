@@ -33,5 +33,8 @@ DetectionsSchema = new SimpleSchema({
       }
     },
     optional: true
+  },
+  readingIds: {
+    type: [String]
   }
 })

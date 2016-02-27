@@ -29,5 +29,8 @@ BasestationsSchema = new SimpleSchema({
       return new Date()
     },
     optional: true
+  },
+  lastTelephonyReadingId: {
+    type: String
   }
 })

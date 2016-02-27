@@ -9,6 +9,7 @@ if(Meteor.isServer) {
     Catcher.Basestations.remove({});
 
     var reading = {
+      _id: 'woo',
       commonReading: {
         readingType: Catcher.READING_TYPES.GSM,
         deviceId: "one",
@@ -26,7 +27,8 @@ if(Meteor.isServer) {
 
     Catcher.Basestations.insert({
       cid: 1,
-      lac: 1
+      lac: 1,
+      lastTelephonyReadingId: 'cat'
     })
 
     reading.lac = 2;
@@ -37,6 +39,7 @@ if(Meteor.isServer) {
     if(detection) {
       test.equal(detection.detectorName, "F3")
       test.equal(detection.score, 25)
+      test.equal(detection.readingIds, ['woo', 'cat'])
       test.equal(detection.message, "On CID 1, LAC changed from: 1 => 2")
       test.isNotUndefined(detection.createdAt);
     }

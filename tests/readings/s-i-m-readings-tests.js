@@ -22,7 +22,6 @@ if(Meteor.isClient) {
 
     Meteor.call('catcher/readings/insert', simReading,
       function(error, readingId) {
-        console.log(error);
         test.isUndefined(error);
         test.isTrue(typeof readingId === 'string');
 

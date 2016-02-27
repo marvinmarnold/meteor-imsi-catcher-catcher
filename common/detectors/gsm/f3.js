@@ -27,6 +27,7 @@ _.extend(Catcher.Detectors, {
             score: score,
             longitude: reading.longitude,
             latitude: reading.latitude,
+            readingIds: [reading._id, bts.lastTelephonyReadingId]
           })
         }
       }
