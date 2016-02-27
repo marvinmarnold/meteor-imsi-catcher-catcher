@@ -1,14 +1,36 @@
 // One Cell (CID) with changing LAC
 // 1st = 25
 // 2nd = 50
+var name = 'F3'
+var score = 25
+var description = "Same CID with changing LAC"
 
 _.extend(Catcher.Detectors, {
   F3: {
-    name: "f3",
-    description: "Same CID with changing LAC",
+    name: name,
+    description: description,
+
     pre(reading) {
-      var cidlac = _dF3CIDLAC.findOne({lac: reading.lac, cid: reading.cid});
-      
+      if(reading.cid && reading.lac) {
+        var bts = Basestations.findOne({cid: reading.cid})
+
+        if(bts && (bts.lac !== reading.lac)) {
+          console.log('one found');
+          var message = "On CID " + bts.cid +
+            ", LAC changed from: " + bts.lac + " => " + reading.lac
+
+          Detections.insert({
+            deviceId: reading.commonReading.deviceId,
+            basestationId: bts._id,
+            detectorName: name,
+            message: message,
+            score: score,
+            longitude: reading.longitude,
+            latitude: reading.latitude,
+          })
+        }
+      }
+
     },
     post(reading) {
 
@@ -18,5 +40,3 @@ _.extend(Catcher.Detectors, {
     }
   }
 })
-
-var _dF3CIDLAC = new Mongo.Collection("meteor-imsi-catcher-detectors-f3-cidlac");

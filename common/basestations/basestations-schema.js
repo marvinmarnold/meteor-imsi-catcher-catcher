@@ -1,18 +1,22 @@
-CommonReadingsSchema = new SimpleSchema({
-  readingType: {
-    type: String,
-    allowedValues: Catcher.READING_TYPES_ARR
-  },
-  deviceId: {
-    type: String
-  },
-  deviceScannerId: {
+BasestationsSchema = new SimpleSchema({
+  cid: {
     type: Number
+  },
+  mcc: {
+    type: Number,
+    optional: true
+  },
+  mnc: {
+    type: Number,
+    optional: true
+  },
+  lac: {
+    type: Number,
+    optional: true
   },
   createdAt: {
     type: Date,
     autoValue() {
-      this.unset()
       if(this.isInsert) {
         return new Date()
       }

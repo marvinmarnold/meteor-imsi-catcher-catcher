@@ -1,4 +1,7 @@
 DetectionsSchema = new SimpleSchema({
+  deviceId: {
+    type: String
+  },
   basestationId: {
     type: String
   },

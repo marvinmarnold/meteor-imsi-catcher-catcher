@@ -5,7 +5,8 @@ if(Meteor.isServer) {
     // 2nd 50
 
     Catcher.Detections.remove({});
-    Catcher.GSMReadings.remove({});
+    Catcher.TelephonyReadings.remove({});
+    Catcher.Basestations.remove({});
 
     var reading = {
       commonReading: {
@@ -18,19 +19,26 @@ if(Meteor.isServer) {
     }
 
     Catcher.Detectors.F3.pre(reading);
+    reading.lac = 2
     Catcher.Detectors.F3.pre(reading);
     Catcher.Detectors.F3.pre(reading);
     test.equal(Catcher.Detections.find().count(), 0)
+
+    Catcher.Basestations.insert({
+      cid: 1,
+      lac: 1
+    })
 
     reading.lac = 2;
     Catcher.Detectors.F3.pre(reading);
     var detection = Catcher.Detections.findOne();
     test.isNotUndefined(detection);
-    test.equal(detection.detectorName, "F3")
-    test.equal(detection.score, 25)
-    test.equal(detection.message, "LAC changed from 1 to 2")
-    test.isNotUndefined(detection.createdAt);
 
-
+    if(detection) {
+      test.equal(detection.detectorName, "F3")
+      test.equal(detection.score, 25)
+      test.equal(detection.message, "On CID 1, LAC changed from: 1 => 2")
+      test.isNotUndefined(detection.createdAt);
+    }
   })
 }
