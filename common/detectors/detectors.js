@@ -5,5 +5,8 @@ _.extend(Catcher, {
   _detectors: [],
   addDetector(detector) {
     this._dectectors.push(detector);
+  },
+  setDetectors(detectors) {
+    this._detectors = detectors
   }
 })
