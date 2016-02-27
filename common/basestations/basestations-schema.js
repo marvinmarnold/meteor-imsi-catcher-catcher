@@ -14,6 +14,9 @@ BasestationsSchema = new SimpleSchema({
     type: Number,
     optional: true
   },
+  hasNeighbors: {
+    type: Boolean
+  },
   createdAt: {
     type: Date,
     autoValue() {

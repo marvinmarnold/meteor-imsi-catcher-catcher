@@ -4,8 +4,16 @@ Detections.attachSchema(DetectionsSchema)
 _.extend(Catcher, {
   Detections: Detections,
   inDanger: function() {
+    return threatScore > 100
+  },
+  threatScore: function() {
     var recent = new Date().getTime() - 5000//60 * 60 * 1000
 
-    return !!Detections.findOne({createdAt: {$gt: new Date(recent)}})
+    var detections = !!Detections.find({createdAt: {$gt: new Date(recent)}}).fetch()
+    var threatScore = _.reduce(detections, (sum, detection) => {
+      return sum + detection.score;
+    }, 0)
+
+    return threatScore
   }
 })

@@ -2,6 +2,10 @@ TelephonyReadingsSchema = new SimpleSchema({
   commonReading: {
     type: CommonReadingsSchema
   },
+  hasNeighbors: {
+    type: Boolean,
+    optional: true
+  },
   latitude: {
     type: Number,
     decimal: true,

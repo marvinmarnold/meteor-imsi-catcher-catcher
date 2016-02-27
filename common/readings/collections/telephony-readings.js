@@ -17,22 +17,28 @@ TelephonyReadings.after.insert(function (userId, reading) {
 });
 
 var afterInsertReadingServer = function(reading) {
+  console.log('afterInsertReadingServer');
+  console.log(reading);
 
   if(looksLikeBTS(reading)) {
+    console.log('looksLikeBTS');
     var bts = Basestations.findOne({cid: reading.cid})
 
     if(bts) {
+      console.log('update');
       Basestations.update(bts._id, {$set: {
         lac: reading.lac,
         lastTelephonyReadingId: reading._id
       }})
     } else {
+      console.log('insert');
       Basestations.insert({
         cid: reading.cid,
         lac: reading.lac,
         mnc: reading.mnc,
         mcc: reading.mcc,
         lastTelephonyReadingId: reading._id,
+        hasNeighbors: reading.hasNeighbors
       })
     }
   }

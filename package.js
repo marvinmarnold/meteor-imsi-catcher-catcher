@@ -33,6 +33,7 @@ Package.onUse(function(api) {
   api.addFiles([
     'common/basestations/basestations-schema.js',
     'common/readings/schemas/common-readings-schema.js',
+    'common/readings/schemas/neighbor-readings-schema.js',
     'common/readings/schemas/telephony-readings-schema.js',
     'common/readings/schemas/s-i-m-readings-schema.js'
   ]);
@@ -40,6 +41,7 @@ Package.onUse(function(api) {
   // Collections
   api.addFiles([
     'common/basestations/basestations-collection.js',
+    'common/readings/collections/neighbor-readings.js',
     'common/readings/collections/telephony-readings.js',
     'common/readings/collections/s-i-m-readings.js',
     'common/readings/collections/helpers.js'
