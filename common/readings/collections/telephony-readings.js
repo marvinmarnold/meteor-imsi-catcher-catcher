@@ -9,7 +9,7 @@ TelephonyReadings.after.insert(function (userId, reading) {
   // Run detections before any side effects of inserted reading
   Catcher.runDetectionPre(dreadingoc)
 
-  if(Meteor.isServer)
+  if(Catcher.isMasterServer())
     afterInsertReadingServer(reading);
 
   // Run detections after all side effect of inserted reading

@@ -11,7 +11,7 @@ _.extend(Catcher.Detectors, {
     description: description,
 
     pre(reading) {
-      if(reading.cid && reading.lac) {
+      if(Catcher.isMasterServer() && reading.cid && reading.lac) {
         var bts = Basestations.findOne({cid: reading.cid})
 
         if(bts && (bts.lac !== reading.lac)) {
@@ -30,7 +30,6 @@ _.extend(Catcher.Detectors, {
           })
         }
       }
-
     },
     post(reading) {
 

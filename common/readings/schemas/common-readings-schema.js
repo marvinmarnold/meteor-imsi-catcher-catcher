@@ -9,6 +9,15 @@ CommonReadingsSchema = new SimpleSchema({
   deviceScannerId: {
     type: Number
   },
+  arfcn: {
+    type: Number,
+    optional: true
+  },
+  frequency: {
+    type: Number,
+    decimal: true,
+    optional: true
+  },
   createdAt: {
     type: Date,
     autoValue() {
