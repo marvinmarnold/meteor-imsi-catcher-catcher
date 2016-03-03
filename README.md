@@ -48,26 +48,42 @@ TelephonyReadings with sufficient information will generate or modify a Basestat
 Specifically, a CID is necessary to create a Basestation
 
 ## Detectors
-`Detectors` use available Readings to determine if the likelihood of the presence of an IMSI-catcher.
-Detection is based on a heuristic scoring mechanism.
+`Detectors` use available readings to determine the likelihood of the presence of an IMSI-catcher. Detection is based on a heuristic scoring mechanism depicted in the table at the bottom of this page.
+
+The first detection mechanism looks for evidence that a Stingray is engaged in “IMSI-catching.” The IMSI (International Mobile Subscriber Identity) is part of the networks numbering plan and is located on the SIM card. This number is always sent without encryption, regardless of whether the network is 2G, 3G or 4G. After the phone has signed into the network, a TMSI (Temporary Mobile Subscriber Identity) is generated it the backend of the network and used to avoid identification and tracking of the user. Many towers (or Cells, each with a unique CellID) share the same LAC (location area code), in which the TMSI is valid. 
+But if the phone connects to a base station that belongs to another location area, it sends its IMSI instead of the TMSI. This is called a “location update.” 
+
+When the Stingray wants to “catch” IMSIs (identify the users based on their IMSIs), it changes its own LAC so that the phone will react with a “location update“ and send the IMSI instead of the TMSI. To detect IMSI-catching, StingWatch looks for Cells (CellIDs) in which the LAC is changing over the time. This won’t happen under regular conditions, as long as the network configuration isn’t fundamentally changed. 
+
+Second, we know that a fake base station (Stingray) attempts to get as close as possible to the victim(s) and raise the strength of the signal, so that the cell phones in the area will prefer to connect to this fake base station rather than to the real base station. As long as the phone is not in a call, it decides which cell to connect to. StingWatch thus detects signal strength (although this detection is difficult in practice, particularly if the phone user is moving as the detection takes place). 
+
+Third, the presence of a Stingray can result in the presence of a new CellID in the area. StingWatch inspects the CellIDs in the area and mark the appearance of a new ID in the area as suspicious. This detection is complex since a new CellID could also belong to the network provider and we thus need to know how long StingWatch had been exploring the area before a new CellID appeared. Alternatively, we could inspect all channels (ARFCNs) to detect when a  new channel is suddenly used. Unfortunately, this is not possible with the Android API. For this (and other values), we need a software defined radio (SDR). 
+
+Fourth, every base station has a list of nearby towers and their signal strengths. A Stingray would send an empty list to phones connected to it so that the phone will maintain its connection to the Stingray. StingWatch thus looks for missing neighbouring cell lists as evidence of the presence of a Stingray.
+
+Finally, Stingrays downgrade cell phones from 3G or 4G to a less secure 2G connection in order to listen to calls in real time. If a phone has never experienced such a downgrade before in a particular area, it may be evidence of a Stingray. StingWatch therefore looks for unexpected downgrades to 2G.
+
 We use the table below to determine the likelihood of an IMSI-catcher.
 
-| Detector Name  | Description           | Note | Score |
-| ------- | ---------------- | ---------------- | ------|
-| F3  | Changing LAC | 1st time | +25 |
-| F3  | Changing LAC | 2nd time | +25 |
+| Detector Name  | Note                | Score |
+| -------------- | ------------------- | ------|
+| Changing LAC   | 1st time            |   +25 |
+|                | 2nd time            |   +25 |
+| Signal Strength| +20%                |   +25 |
+|                | +40%                |   +50 |
+| New CID        | unknown cell        |   +50 |
+| Missing NCL    | empty list          |   +50 |
+| Downgrade      | to 2G               |   +25 |
 
 
 Remember, that even as detection complexity is added to `meteor-imsi-catcher`, that not all clients will benefit from those advances.
 If the client is not capable of generating readings that new detections require, they cannot be used.
 This may often be the case, for example, as detections are created for rooted phones which are available from unrooted phones.
 
-### F3
-Given a Basestation that was last recorded broadcasting on <CID1, LAC1>,
-if a subsequent reading with <CID1, LAC2> arrives,
- - if 1st change, +25
- - if 2nd change, +50
+With an SDR, there are more detections possible in the future: `it could check to see that all services are present (data connection, for example) and check for wrong neighbouring cell lists, sustained pagings, IMEI (International Mobile Station Equipment) queries, missing encryption, rejections by one base station, jammer detection, manipulated timer, and values such as cell reselection.` 
+
+
 
 ## Detections
-When Detectors detect an IMSI-catcher, they will generate a Detection.
-Detections aggregate information about the Readings & Detectors that created the Detection.
+We are collecting data and placing it geographically. The more people are collecting data, the better detections will be. 
+We then assign a score to the probability of a fake base station in the nearby area. 
