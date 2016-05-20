@@ -1,6 +1,4 @@
-NeighborReadings = new Mongo.Collection("meteor-imsi-catcher-neighbor-readings");
-NeighborReadings.attachSchema(NeighborReadingsSchema)
+import { NeighborReadingsSchema } from '../schemas/neighbor-readings-schema.js';
 
-_.extend(Catcher, {
-  NeighborReadings: NeighborReadings
-})
+export const NeighborReadings = new Mongo.Collection("meteor-imsi-catcher-neighbor-readings");
+NeighborReadings.attachSchema(NeighborReadingsSchema)

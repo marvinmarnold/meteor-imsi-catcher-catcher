@@ -1,4 +1,6 @@
-NeighborReadingsSchema = new SimpleSchema({
+import { CommonReadingsSchema } from './common-readings-schema.js';
+
+export const NeighborReadingsSchema = new SimpleSchema({
   commonReading: {
     type: CommonReadingsSchema
   },

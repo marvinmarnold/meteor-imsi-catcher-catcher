@@ -1,4 +1,7 @@
 import { SIMReadings } from './common/collections/sim-readings.js';
+import { NeighborReadings } from './common/collections/neighbor-readings.js';
+import { TelephonyReadings } from './common/collections/telephony-readings.js';
+
 import { READING_TYPES, READING_TYPES_ARR } from './common/lib/reading-types.js';
 
 export const Catcher = {
@@ -7,6 +10,8 @@ export const Catcher = {
 
   // Collections
   SIMReadings: SIMReadings,
+  NeighborReadings: NeighborReadings,
+  TelephonyReadings: TelephonyReadings,
 
   // Some "servers" may collect readings and store to DB
   // to avoid duplicate detections, basestations, etc,

@@ -4,17 +4,11 @@ import { READING_TYPES } from './reading-types.js';
 export function collectionForReadingType(readingType) {
   if(readingType === READING_TYPES.ANDROID_V1_SIM) {
     return Catcher.SIMReadings;
-  } else {
-    return TelephonyReadings;
+  } else if(readingType === READING_TYPES.ANDROID_V1_NEIGHBOR) {
+    return Catcher.NeighborReadings;
+  }  else {
+    return Catcher.TelephonyReadings;
   }
-  // switch(readingType) {
-  //   case ANDROID_V1_SIM: return SIMReadings;
-  //   case ANDROID_V1_GSM:
-  //   case ANDROID_V17_GSM:
-  //   case ANDROID_V17_CDMA:
-  //   case ANDROID_V17_LTE:
-  //   case ANDROID_V17_WCDMA: return GSMReadings;
-  // }
 }
 
 export function isDuplicateReading(reading) {

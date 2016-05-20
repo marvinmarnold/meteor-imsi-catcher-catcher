@@ -1,4 +1,6 @@
-TelephonyReadingsSchema = new SimpleSchema({
+import { CommonReadingsSchema } from './common-readings-schema.js';
+
+export const TelephonyReadingsSchema = new SimpleSchema({
   commonReading: {
     type: CommonReadingsSchema
   },
