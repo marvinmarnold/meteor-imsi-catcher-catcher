@@ -1,4 +1,4 @@
-import { READING_TYPES_ARR } from '../lib/readings-helpers.js';
+import { READING_TYPES_ARR } from '../lib/reading-types.js';
 
 export const CommonReadingsSchema = new SimpleSchema({
   readingType: {

@@ -1,5 +1,5 @@
 import { SIMReadings } from './common/collections/sim-readings.js';
-import { READING_TYPES, READING_TYPES_ARR } from './common/lib/readings-helpers.js';
+import { READING_TYPES, READING_TYPES_ARR } from './common/lib/reading-types.js';
 
 export const Catcher = {
   READING_TYPES: READING_TYPES,
