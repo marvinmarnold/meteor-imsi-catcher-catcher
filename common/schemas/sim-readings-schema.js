@@ -1,4 +1,6 @@
-SIMReadingsSchema = new SimpleSchema({
+import { CommonReadingsSchema } from './common-readings-schema.js';
+
+export const SIMReadingsSchema = new SimpleSchema({
   commonReading: {
     type: CommonReadingsSchema
   },

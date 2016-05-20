@@ -1,7 +1,9 @@
-CommonReadingsSchema = new SimpleSchema({
+import { READING_TYPES_ARR } from '../lib/readings-helpers.js';
+
+export const CommonReadingsSchema = new SimpleSchema({
   readingType: {
     type: String,
-    allowedValues: Catcher.READING_TYPES_ARR
+    allowedValues: READING_TYPES_ARR
   },
   deviceId: {
     type: String
@@ -35,4 +37,4 @@ CommonReadingsSchema = new SimpleSchema({
     },
     optional: true
   }
-})
+});
