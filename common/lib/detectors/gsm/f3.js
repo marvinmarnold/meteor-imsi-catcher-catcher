@@ -20,6 +20,7 @@ _.extend(Catcher.Detectors, {
 
           Detections.insert({
             deviceId: reading.commonReading.deviceId,
+            isTest: false,
             basestationId: bts._id,
             detectorName: name,
             message: message,

@@ -1,6 +1,10 @@
-DetectionsSchema = new SimpleSchema({
+export const DetectionsSchema = new SimpleSchema({
   deviceId: {
     type: String
+  },
+  isTest: {
+    // Set to true if this is for simulating a detection on a device or other debugging
+    type: Boolean
   },
   basestationId: {
     type: String
@@ -37,4 +41,4 @@ DetectionsSchema = new SimpleSchema({
   readingIds: {
     type: [String]
   }
-})
+});
