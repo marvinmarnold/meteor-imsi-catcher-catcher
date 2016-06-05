@@ -33,9 +33,6 @@ Meteor.publish("catcher.detections.me", function(deviceId) {
   let selector = {deviceId: deviceId};
   selector = _.extend(selector, recentSelector);
 
-  console.log("catcher.detections.me");
-  console.log(selector);
-  console.log(options);
   return Detections.find(selector, options)
 });
 
