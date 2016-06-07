@@ -1,20 +1,36 @@
 import { Detections } from '../../common/collections/detections.js';
+import { check } from 'meteor/check';
 
 Meteor.methods({
-  'catcher.simulate-detection': (deviceId) => {
+  'catcher.simulate-detection': (deviceId, options = {}) => {
     check(deviceId, String);
+    check(options, {
+      detectorName: Match.Optional(String),
+      basestationId: Match.Optional(String),
+      message: Match.Optional(String),
+      score: Match.Optional(Number),
+      longitude: Match.Optional(Number),
+      latitude: Match.Optional(Number)
+    });
 
-    return  Detections.insert({
-      deviceId: deviceId,
-      isTest: true,
+    const defaultOptions = {
       basestationId: "Test basestation",
       detectorName: "Test detector",
       message: "This is not a real detection. This is for testing only",
       score: 100,
       longitude: 32.890237,
-      latitude: -26.167970,
+      latitude: -26.167970
+    }
+
+    _.defaults(options, defaultOptions)
+
+    _.extend(options, {
+      deviceId: deviceId,
+      isTest: true,
       readingIds: ["Test, no readings"]
     });
+
+    return  Detections.insert(options);
   }
 });
 
