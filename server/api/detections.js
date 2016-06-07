@@ -1,6 +1,15 @@
 import { Detections } from '../../common/collections/detections.js';
 import { check } from 'meteor/check';
 
+function getRandomInRange(from, to, fixed) {
+  return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+}
+
+function randGPS() {
+  return getRandomInRange(-180, 180, 3);
+}
+
+
 Meteor.methods({
   'catcher.simulate-detection': (deviceId, options = {}) => {
     check(deviceId, String);
@@ -18,8 +27,8 @@ Meteor.methods({
       detectorName: "Test detector",
       message: "This is not a real detection. This is for testing only",
       score: 100,
-      longitude: 32.890237,
-      latitude: -26.167970
+      longitude: randGPS(),
+      latitude: randGPS()
     }
 
     _.defaults(options, defaultOptions)
