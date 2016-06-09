@@ -44,8 +44,15 @@ Meteor.methods({
 });
 
 const oneWeek = 1000 * 10;//60 * 60 * 24 * 7
-const recent = new Date(new Date().getTime() - oneWeek)
-const recentSelector = {createdAt: {$gt: recent}}
+
+function recent() {
+  return new Date(new Date().getTime() - oneWeek)
+}
+
+function getRecentSelector() {
+  return {createdAt: {$gt: recent()}};
+}
+
 const options = {limit: 100, sort: {createdAt: -1}}
 // Meteor.publish("catcher/nearby-detections", function(latitude, longitude) {
 //   return Detections.find({
@@ -56,11 +63,12 @@ const options = {limit: 100, sort: {createdAt: -1}}
 
 Meteor.publish("catcher.detections.me", function(deviceId) {
   let selector = {deviceId: deviceId};
-  selector = _.extend(selector, recentSelector);
+  selector = _.extend(selector, getRecentSelector());
 
   return Detections.find(selector, options)
 });
 
-// Meteor.publish("catcher/recent-detections", function() {
-//   return Detections.find(recentSelector, options)
-// });
+// Relevant = recent
+Meteor.publish("catcher.detections.relevant", function() {
+  return Detections.find(getRecentSelector(), options)
+});
